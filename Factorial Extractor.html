@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    f
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Factorial Extractor - Alamin Sultan</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        cursor: none;
+      }
+
+      body {
+        height: 100vh;
+        background: linear-gradient(270deg, #0f0c29, #302b63, #24243e);
+        background-size: 600% 600%;
+        animation: bgshift 30s ease infinite;
+        font-family: "Orbitron", sans-serif;
+        color: #00ff99;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+        overflow: hidden;
+      }
+
+      @keyframes bgshift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 0 20px #00ff99;
+      }
+
+      p {
+        color: #aaffcc;
+        margin-bottom: 1rem;
+      }
+
+      .input {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      input[type="number"] {
+        padding: 1rem;
+        font-size: 1.2rem;
+        width: 250px;
+        border: none;
+        border-radius: 30px;
+        outline: none;
+        text-align: center;
+        background-color: #111;
+        color: #00ff99;
+        box-shadow: 0 0 10px #00ff99;
+        transition: 0.3s ease;
+      }
+
+      input[type="number"]:focus {
+        box-shadow: 0 0 20px #00ff99;
+      }
+
+      button {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        background: transparent;
+        color: #00ff99;
+        border: 2px solid #00ff99;
+        border-radius: 30px;
+        text-transform: uppercase;
+        transition: 0.3s;
+        box-shadow: 0 0 10px #00ff99;
+      }
+
+      button:hover {
+        background: #00ff99;
+        color: #111;
+        box-shadow: 0 0 30px #00ff99;
+      }
+
+      .results {
+        margin-top: 2rem;
+        font-size: 1.5rem;
+        color: #00ffcc;
+        text-shadow: 0 0 15px #00ffcc;
+        min-height: 40px;
+      }
+
+      #cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 25px;
+        height: 25px;
+        background: radial-gradient(circle, #00ff99 0%, transparent 60%);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: screen;
+        box-shadow: 0 0 15px #00ff99;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cursor"></div>
+
+    <div>
+      <h1>Factorial Extractor</h1>
+      <p>Author: Alamin Sultan</p>
+      <p>Extracts factorial of a number input and displays the result.</p>
+    </div>
+
+    <div class="input">
+      <input type="number" id="inputNumber" placeholder="Enter a number" />
+      <button onclick="calculate()">Calculate Factorial</button>
+      <button id="clearButton">Clear</button>
+      <div class="results" id="results"></div>
+    </div>
+
+    <script>
+      // Magic cursor
+      const cursor = document.getElementById("cursor");
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+      });
+
+      function calculate() {
+        const inputValue = document.getElementById("inputNumber").value;
+        const number = parseInt(inputValue);
+
+        const resultBox = document.getElementById("results");
+
+        if (isNaN(number) || number <= 0) {
+          resultBox.innerHTML = "Please enter a valid non-negative number.";
+          gsap.fromTo(resultBox, { opacity: 0 }, { opacity: 1, duration: 1 });
+          return;
+        }
+
+        let result = 1;
+        for (let i = 1; i <= number; i++) {
+          result *= i;
+        }
+
+        resultBox.innerHTML = `<h2>Factorial of ${number} is = <b>${result}</b></h2>`;
+        gsap.fromTo(
+          resultBox,
+          { scale: 0.5, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 1.2, ease: "power2.out" }
+        );
+      }
+
+      document
+        .getElementById("clearButton")
+        .addEventListener("click", function () {
+          document.getElementById("inputNumber").value = "";
+          const resultBox = document.getElementById("results");
+          resultBox.innerHTML = "";
+        });
+    </script>
+  </body>
+</html>
